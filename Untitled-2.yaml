@@ -1,0 +1,53 @@
+# File: backend/config.yaml
+# Author: Gemini
+# Date: July 17, 2024
+# Description: Configuration file for the MINI S system.
+# This file defines the available local LLMs, their paths, and how they should be run.
+
+# The 'llm_models' section lists all language models available to the system.
+# Each model has a unique identifier (e.g., 'llama2-7b-chat-hf') which will be
+# used by agents to request a specific model.
+llm_models:
+  # --- Hugging Face Transformer-based Model (for GPU) ---
+  # This is a standard Hugging Face model. It's best for users with a powerful
+  # NVIDIA GPU and sufficient VRAM.
+  llama2-7b-chat-hf:
+    # 'provider' specifies which backend to use for this model.
+    # 'huggingface' uses the 'transformers' library.
+    provider: "huggingface"
+    # 'model_path' is the local directory where the model weights are stored.
+    # This can be a path to a model downloaded from the Hugging Face Hub.
+    # IMPORTANT: The user must download the model and update this path.
+    model_path: "/path/to/your/models/Llama-2-7b-chat-hf"
+    # 'config' holds provider-specific settings.
+    config:
+      # 'device_map' tells the transformers library how to distribute the model
+      # across devices. "auto" is a good default for single/multi-GPU setups.
+      device_map: "auto"
+      # 'precision' can be 'float16' or 'bfloat16' for faster inference on
+      # supported GPUs, or 'float32' for full precision.
+      precision: "float16"
+
+  # --- GGUF Quantized Model (for CPU or GPU offloading) ---
+  # GGUF is a format optimized for running on CPUs or for offloading some layers
+  # to a GPU, making it ideal for systems with less VRAM or for running on
+  # Apple Silicon (Metal).
+  qwen-7b-chat-gguf:
+    # 'llama-cpp' provider uses the 'llama-cpp-python' library.
+    provider: "llama-cpp"
+    # 'model_path' points directly to the .gguf model file.
+    # IMPORTANT: The user must download the model and update this path.
+    model_path: "/path/to/your/models/qwen1_5-7b-chat-q5_k_m.gguf"
+    config:
+      # 'n_gpu_layers' specifies how many layers to offload to the GPU.
+      # -1 means offload all possible layers, which is great for performance.
+      # 0 means run entirely on CPU.
+      n_gpu_layers: -1
+      # 'n_ctx' is the context window size (max number of tokens).
+      n_ctx: 4096
+      # 'verbose' can be set to True for detailed logging from llama.cpp.
+      verbose: False
+
+# Add more models here as needed, following the same structure.
+# For example, you could add a DeepSeek model or other LLaMA variants.
+

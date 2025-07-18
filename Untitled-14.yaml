@@ -1,0 +1,37 @@
+# File: backend/config.yaml
+# Author: Gemini
+# Date: July 17, 2024
+# Description: Configuration file for the MINI S system.
+# Now includes database connection settings.
+
+# --- Database Configuration ---
+# This section holds the connection details for the PostgreSQL database.
+# The AgentManager will use this to persist agent data.
+# IMPORTANT: The user must have PostgreSQL installed and running, and update these values.
+database:
+  host: "localhost"
+  port: 5432
+  user: "your_postgres_user"
+  password: "your_postgres_password"
+  dbname: "minis_db"
+
+
+# --- LLM Configuration ---
+# The 'llm_models' section lists all language models available to the system.
+llm_models:
+  # --- Hugging Face Transformer-based Model (for GPU) ---
+  llama2-7b-chat-hf:
+    provider: "huggingface"
+    model_path: "/path/to/your/models/Llama-2-7b-chat-hf"
+    config:
+      device_map: "auto"
+      precision: "float16"
+
+  # --- GGUF Quantized Model (for CPU or GPU offloading) ---
+  qwen-7b-chat-gguf:
+    provider: "llama-cpp"
+    model_path: "/path/to/your/models/qwen1_5-7b-chat-q5_k_m.gguf"
+    config:
+      n_gpu_layers: -1
+      n_ctx: 4096
+      verbose: False
