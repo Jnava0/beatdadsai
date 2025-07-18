@@ -1,0 +1,235 @@
+@@ .. @@
+                         <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                             <h3 class="text-lg font-semibold text-white">Active Agents</h3>
+                             <p id="dashboard-active-agents" class="text-4xl font-bold text-cyan-400 mt-2">0</p>
++                            <p class="text-sm text-gray-400 mt-1">Currently running</p>
+                         </div>
+                         <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+-                            <h3 class="text-lg font-semibold text-white">Models Loaded</h3>
+-                            <p id="dashboard-models-loaded" class="text-4xl font-bold text-purple-400 mt-2">0</p>
++                            <h3 class="text-lg font-semibold text-white">Total Tasks</h3>
++                            <p id="dashboard-total-tasks" class="text-4xl font-bold text-purple-400 mt-2">0</p>
++                            <p class="text-sm text-gray-400 mt-1">In system</p>
+                         </div>
+                         <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+-                            <h3 class="text-lg font-semibold text-white">API Status</h3>
+-                            <p id="dashboard-api-status" class="text-4xl font-bold text-green-400 mt-2">Offline</p>
++                            <h3 class="text-lg font-semibold text-white">Messages</h3>
++                            <p id="dashboard-messages" class="text-4xl font-bold text-green-400 mt-2">0</p>
++                            <p class="text-sm text-gray-400 mt-1">Queued</p>
++                        </div>
++                        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
++                            <h3 class="text-lg font-semibold text-white">Available Tools</h3>
++                            <p id="dashboard-tools" class="text-4xl font-bold text-yellow-400 mt-2">0</p>
++                            <p class="text-sm text-gray-400 mt-1">Loaded</p>
++                        </div>
++                        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
++                            <h3 class="text-lg font-semibold text-white">Models</h3>
++                            <p id="dashboard-models" class="text-4xl font-bold text-indigo-400 mt-2">0</p>
++                            <p class="text-sm text-gray-400 mt-1">Available</p>
++                        </div>
++                        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
++                            <h3 class="text-lg font-semibold text-white">System Status</h3>
++                            <p id="dashboard-system-status" class="text-4xl font-bold text-green-400 mt-2">Healthy</p>
++                            <p class="text-sm text-gray-400 mt-1">All systems</p>
+                         </div>
+                     </div>
++                    
++                    <!-- Recent Activity -->
++                    <div class="mt-8">
++                        <h3 class="text-xl font-bold text-white mb-4">Recent Activity</h3>
++                        <div class="bg-gray-800 rounded-lg border border-gray-700 p-4">
++                            <div id="recent-activity" class="space-y-2 max-h-64 overflow-y-auto">
++                                <p class="text-gray-400 text-sm">No recent activity</p>
++                            </div>
++                        </div>
++                    </div>
+                 </div>
+ 
+@@ .. @@
+                 <!-- Agent Management View (Initially hidden) -->
+                 <div id="view-agents" class="hidden">
+-                    <h2 class="text-3xl font-bold text-white mb-6">Agent Manager</h2>
+-                    <!-- Content for agent management will go here -->
++                    <div class="flex justify-between items-center mb-6">
++                        <h2 class="text-3xl font-bold text-white">Enhanced Agent Manager</h2>
++                        <div class="flex space-x-3">
++                            <button id="btn-create-team" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
++                                Create Team
++                            </button>
++                            <button id="btn-create-agent" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
++                                + Create Agent
++                            </button>
++                        </div>
++                    </div>
++                    
++                    <!-- Agent Controls -->
++                    <div class="mb-6 flex space-x-4">
++                        <button id="btn-start-all" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
++                            Start All
++                        </button>
++                        <button id="btn-stop-all" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
++                            Stop All
++                        </button>
++                        <button id="btn-workshop-mode" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
++                            Workshop Mode
++                        </button>
++                    </div>
++                    
++                    <div id="agent-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
++                        <!-- Enhanced agent cards will be rendered here -->
++                    </div>
+                 </div>
+ 
++                <!-- Tasks View (Initially hidden) -->
++                <div id="view-tasks" class="hidden">
++                    <div class="flex justify-between items-center mb-6">
++                        <h2 class="text-3xl font-bold text-white">Task Management</h2>
++                        <button id="btn-create-task" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
++                            + Create Task
++                        </button>
++                    </div>
++                    
++                    <!-- Task Filters -->
++                    <div class="mb-6 flex space-x-4">
++                        <select id="task-status-filter" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white">
++                            <option value="">All Statuses</option>
++                            <option value="pending">Pending</option>
++                            <option value="assigned">Assigned</option>
++                            <option value="in_progress">In Progress</option>
++                            <option value="completed">Completed</option>
++                            <option value="failed">Failed</option>
++                        </select>
++                        <select id="task-agent-filter" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white">
++                            <option value="">All Agents</option>
++                        </select>
++                    </div>
++                    
++                    <div id="task-list-container" class="space-y-4">
++                        <!-- Task cards will be rendered here -->
++                    </div>
++                </div>
++
+                 <!-- System Logs View (Initially hidden) -->
+                 <div id="view-logs" class="hidden">
+                     <h2 class="text-3xl font-bold text-white mb-6">System Logs</h2>
+-                    <!-- Content for system logs will go here -->
++                    <div class="bg-gray-800 rounded-lg border border-gray-700 p-4">
++                        <div class="mb-4 flex justify-between items-center">
++                            <div class="flex space-x-2">
++                                <button id="btn-refresh-logs" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
++                                    Refresh
++                                </button>
++                                <button id="btn-clear-logs" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
++                                    Clear
++                                </button>
++                            </div>
++                            <div class="flex space-x-2">
++                                <select id="log-level-filter" class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white">
++                                    <option value="">All Levels</option>
++                                    <option value="DEBUG">Debug</option>
++                                    <option value="INFO">Info</option>
++                                    <option value="WARNING">Warning</option>
++                                    <option value="ERROR">Error</option>
++                                </select>
++                            </div>
++                        </div>
++                        <div id="logs-container" class="bg-gray-900 rounded p-4 h-96 overflow-y-auto font-mono text-sm">
++                            <p class="text-gray-400">Loading logs...</p>
++                        </div>
++                    </div>
+                 </div>
+             </div>
+         </main>
+@@ .. @@
+         const views = {
+             dashboard: document.getElementById('view-dashboard'),
+             agents: document.getElementById('view-agents'),
++            tasks: document.getElementById('view-tasks'),
+             logs: document.getElementById('view-logs'),
+         };
+@@ .. @@
+         /**
+          * Fetches and updates the dashboard data.
+         */
+         async function updateDashboard() {
+             try {
+-                const response = await fetch(`${API_BASE_URL}/api/v1/agents`);
+-                if(response.ok) {
+-                    const agents = await response.json();
+-                    document.getElementById('dashboard-active-agents').textContent = agents.length;
+-                    
+-                    // Logic to count unique models will be more advanced later
+-                    const uniqueModels = new Set(agents.map(a => a.model_id));
+-                    document.getElementById('dashboard-models-loaded').textContent = uniqueModels.size;
+-
++                // Get system stats
++                const statsResponse = await fetch(`${API_BASE_URL}/api/v1/system/stats`);
++                if (statsResponse.ok) {
++                    const stats = await statsResponse.json();
++                    document.getElementById('dashboard-active-agents').textContent = stats.active_agents;
++                    document.getElementById('dashboard-tools').textContent = stats.available_tools;
++                    document.getElementById('dashboard-models').textContent = stats.available_models;
++                    document.getElementById('dashboard-messages').textContent = stats.total_queued_messages;
++                }
++                
++                // Get tasks count
++                const tasksResponse = await fetch(`${API_BASE_URL}/api/v1/tasks`);
++                if (tasksResponse.ok) {
++                    const tasks = await tasksResponse.json();
++                    document.getElementById('dashboard-total-tasks').textContent = tasks.length;
++                }
++                
++                // Get system health
++                const healthResponse = await fetch(`${API_BASE_URL}/api/v1/system/health`);
++                if (healthResponse.ok) {
++                    const health = await healthResponse.json();
++                    const statusElement = document.getElementById('dashboard-system-status');
++                    statusElement.textContent = health.status === 'healthy' ? 'Healthy' : 'Issues';
++                    statusElement.className = health.status === 'healthy' ? 
++                        'text-4xl font-bold text-green-400 mt-2' : 
++                        'text-4xl font-bold text-red-400 mt-2';
+                 }
+             } catch (error) {
+                 console.error("Failed to update dashboard:", error);
+             }
+         }
++        
++        /**
++         * Updates the recent activity feed
++         */
++        async function updateRecentActivity() {
++            // This would fetch recent system events, agent actions, etc.
++            // For now, we'll show a placeholder
++            const activityContainer = document.getElementById('recent-activity');
++            const now = new Date().toLocaleTimeString();
++            
++            // Add a sample activity (in a real system, this would come from the API)
++            const activities = [
++                `${now} - System health check completed`,
++                `${now} - Dashboard data refreshed`,
++            ];
++            
++            activityContainer.innerHTML = activities.map(activity => 
++                `<p class="text-gray-300 text-sm">${activity}</p>`
++            ).join('');
++        }
+ 
+         // --- Event Listeners ---
+@@ .. @@
+         // This function runs when the DOM is fully loaded.
+         document.addEventListener('DOMContentLoaded', () => {
+             console.log('MINI S Admin Panel Initializing...');
++            console.log('Enhanced Multi-Agent System v1.0.0');
+             switchView('dashboard'); // Set the initial view
+             checkApiStatus();
+             updateDashboard();
++            updateRecentActivity();
+ 
+             // Periodically check API status and update dashboard
+             setInterval(checkApiStatus, 10000); // every 10 seconds
+             setInterval(updateDashboard, 5000); // every 5 seconds
++            setInterval(updateRecentActivity, 30000); // every 30 seconds
+         });
+ 
+     </script>

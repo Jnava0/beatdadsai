@@ -1,0 +1,147 @@
+# File: backend/config.yaml
+# Author: Enhanced MINI S System
+# Date: January 17, 2025
+# Description: Enhanced configuration for MINI S with multi-agent collaboration features
+
+# --- Database Configuration ---
+database:
+  host: "localhost"
+  port: 5432
+  user: "your_postgres_user"
+  password: "your_postgres_password"
+  dbname: "minis_db"
+
+# --- LLM Configuration ---
+llm_models:
+  # --- Hugging Face Transformer-based Models ---
+  llama2-7b-chat-hf:
+    provider: "huggingface"
+    model_path: "/path/to/your/models/Llama-2-7b-chat-hf"
+    config:
+      device_map: "auto"
+      precision: "float16"
+      max_tokens: 4096
+      temperature: 0.7
+
+  llama2-13b-chat-hf:
+    provider: "huggingface"
+    model_path: "/path/to/your/models/Llama-2-13b-chat-hf"
+    config:
+      device_map: "auto"
+      precision: "float16"
+      max_tokens: 4096
+      temperature: 0.7
+
+  # --- GGUF Quantized Models ---
+  qwen-7b-chat-gguf:
+    provider: "llama-cpp"
+    model_path: "/path/to/your/models/qwen1_5-7b-chat-q5_k_m.gguf"
+    config:
+      n_gpu_layers: -1
+      n_ctx: 4096
+      verbose: False
+      temperature: 0.7
+
+  qwen-14b-chat-gguf:
+    provider: "llama-cpp"
+    model_path: "/path/to/your/models/qwen1_5-14b-chat-q5_k_m.gguf"
+    config:
+      n_gpu_layers: -1
+      n_ctx: 4096
+      verbose: False
+      temperature: 0.7
+
+  deepseek-7b-chat-gguf:
+    provider: "llama-cpp"
+    model_path: "/path/to/your/models/deepseek-coder-7b-instruct-v1.5.q5_k_m.gguf"
+    config:
+      n_gpu_layers: -1
+      n_ctx: 4096
+      verbose: False
+      temperature: 0.7
+
+# --- Agent Templates ---
+agent_templates:
+  project_manager:
+    name: "Project Manager"
+    role: "An AI project manager that breaks down complex tasks, coordinates team members, and ensures project completion. Specializes in planning, delegation, and progress tracking."
+    model_id: "qwen-14b-chat-gguf"
+    autonomy_level: "high"
+    allowed_tools: ["web_scraper", "file_manager", "task_scheduler", "team_communicator"]
+    communication_rights: ["agent_to_agent", "agent_to_user"]
+    memory_scope: "persistent"
+
+  senior_developer:
+    name: "Senior Developer"
+    role: "An expert software developer capable of writing, reviewing, and debugging code in multiple languages. Focuses on clean, efficient, and well-documented solutions."
+    model_id: "deepseek-7b-chat-gguf"
+    autonomy_level: "medium"
+    allowed_tools: ["web_scraper", "file_manager", "code_executor", "git_manager"]
+    communication_rights: ["agent_to_agent"]
+    memory_scope: "persistent"
+
+  qa_tester:
+    name: "QA Tester"
+    role: "A quality assurance specialist that tests code, identifies bugs, and ensures software reliability. Writes comprehensive test cases and performs thorough testing."
+    model_id: "qwen-7b-chat-gguf"
+    autonomy_level: "medium"
+    allowed_tools: ["code_executor", "file_manager", "test_runner"]
+    communication_rights: ["agent_to_agent"]
+    memory_scope: "task_limited"
+
+  researcher:
+    name: "Research Specialist"
+    role: "An AI researcher that gathers information from trusted sources, analyzes data, and provides comprehensive insights. Specializes in web research and knowledge synthesis."
+    model_id: "qwen-7b-chat-gguf"
+    autonomy_level: "medium"
+    allowed_tools: ["web_scraper", "knowledge_base", "file_manager"]
+    communication_rights: ["agent_to_agent", "agent_to_user"]
+    memory_scope: "persistent"
+
+  documentation_writer:
+    name: "Documentation Writer"
+    role: "A technical writer that creates clear, comprehensive documentation for projects, APIs, and user guides. Focuses on clarity and user experience."
+    model_id: "llama2-7b-chat-hf"
+    autonomy_level: "low"
+    allowed_tools: ["file_manager", "web_scraper"]
+    communication_rights: ["agent_to_agent"]
+    memory_scope: "task_limited"
+
+# --- System Settings ---
+system:
+  max_concurrent_agents: 5
+  max_model_instances: 3
+  debug_mode: false
+  workshop_mode: false
+  auto_learning_enabled: true
+  security_sandbox_enabled: true
+  
+# --- Learning Configuration ---
+learning:
+  trusted_domains:
+    - "github.com"
+    - "stackoverflow.com"
+    - "docs.python.org"
+    - "developer.mozilla.org"
+    - "reactjs.org"
+    - "nodejs.org"
+  
+  scraping_intervals:
+    daily: ["github.com"]
+    weekly: ["stackoverflow.com", "docs.python.org"]
+  
+  knowledge_retention_days: 90
+  auto_fine_tune: false
+  fine_tune_approval_required: true
+
+# --- Security Settings ---
+security:
+  sandbox_enabled: true
+  file_access_restricted: true
+  network_access_whitelist_only: true
+  code_execution_sandboxed: true
+  approval_required_actions:
+    - "file_delete"
+    - "system_command"
+    - "model_fine_tune"
+    - "agent_create"
