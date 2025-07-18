@@ -1,0 +1,26 @@
+{
+  "name": "mini-s-system",
+  "version": "1.0.0",
+  "description": "MINI S: Offline Autonomous AI System",
+  "main": "index.js",
+  "scripts": {
+    "dev": "serve frontend -l 3000",
+    "start": "serve frontend -l 3000",
+    "install-deps": "npm install"
+  },
+  "keywords": [
+    "ai",
+    "autonomous",
+    "agents",
+    "offline",
+    "llm"
+  ],
+  "author": "MINI S Team",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
